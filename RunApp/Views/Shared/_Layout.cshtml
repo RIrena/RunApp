@@ -1,0 +1,164 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+@{
+    var currentUser = await UserManager.GetUserAsync(User);
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - RunApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/RunApp.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .mynav_navbar {
+            overflow: hidden;
+        }
+
+        .mynav_navbar a {
+            float: left;
+            font-size: 16px;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .mynav_dropdown {
+            float: left;
+            overflow: hidden;
+        }
+
+        .mynav_dropdown .mynav_dropbtn {
+            font-size: 16px;
+            border: none;
+            outline: none;
+            color: black;
+            background-color: inherit;
+            font-family: inherit;
+            margin: 0;
+        }
+
+        .mynav_navbar a:hover, .mynav_dropdown:hover .mynav_dropbtn {
+            background-color: forestgreen;
+        }
+
+        .mynav_dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .mynav_dropdown-content a {
+            float: none;
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .mynav_dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .mynav_dropdown:hover .mynav_dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">RunApp</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <div class="mynav_navbar">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Runners</a>
+                        }
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Club" asp-action="Index">Club</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Race" asp-action="Index">Races</a>
+                    </div>
+
+                    <div class="mynav_dropdown">
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <button class="mynav_dropbtn">
+                                @if (!string.IsNullOrEmpty(currentUser.ProfileImageUrl))
+                                {
+                                    <img alt="Image" src="@currentUser.ProfileImageUrl" width="35" height="35" class="avatar avatar-xs">
+                                }
+                                else
+                                {
+                                    <img alt="Image" src="/img/avatar.jpg" width="35" height="35" class="avatar avatar-xs">
+                                }
+                                <i class="fa fa-caret-down"></i>
+                                <p>@currentUser.UserName</p>
+                            </button>
+
+                            <div class="mynav_dropdown-content">
+                                <a asp-controller="User" asp-action="Detail" asp-route-id="@currentUser.Id">
+                                    <span class="h6 mb-0">View Profile</span>
+                                </a>
+                                <a asp-controller="User" asp-action="EditProfile">
+                                    <span class="h6 mb-0">Edit Profile</span>
+                                </a>
+                                <a asp-area="" asp-controller="Dashboard" asp-action="Index">
+                                    <span class="h6 mb-0">Dashboard</span>
+                                </a>
+                                <a asp-area="" asp-controller="Club" asp-action="Create">
+                                    <span class="h6 mb-0">Create Club</span>
+                                </a>
+                                <a asp-area="" asp-controller="Race" asp-action="Create">
+                                    <span class="h6 mb-0">Create Race</span>
+                                </a>
+                                <a class="btn btn-danger" asp-area="" asp-controller="Account" asp-action="Logout">
+                                    <span su class="h6 mb-0">Logout</span>
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <a class="btn btn-success my-2" asp-area="" asp-controller="Account" asp-action="Login">Sign in</a>
+                            <span>&nbsp;or&nbsp;</span>
+                            <a class="btn btn-primary my-2" asp-area="" asp-controller="Account" asp-action="Register">Sign up</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - RunApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

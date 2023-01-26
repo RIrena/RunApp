@@ -1,0 +1,65 @@
+﻿@using RunApp.ViewModels
+@model UserDetailViewModel
+
+
+<div class="main-container">
+    <section class="bg-white">
+        <div class="container">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-auto">
+                    <h1 class="h2">Runners Profile</h1>
+                </div>
+                <hr>
+                <div class="media">
+                    <img alt="Image" src="@Model.ProfileImageUrl" width="300" height="300" class="mr-md-5 avatar avatar-xlg">
+                    <div class="media-body">
+                        <div class="mb-3">
+                            <h1 class="h2 mb-2">@Model.UserName</h1>
+                        </div>
+                        <p class="text-muted">Pace: @Model.Pace</p>
+                        <p class="text-muted">Mileage: @Model.Mileage</p>
+                        <p>
+                            You'll most often find me in mountain in the hammock with good relaxing music.
+                        </p>
+                        <div>
+                            <button class="btn btn-outline-primary" data-toggle="button"> Follow me on my social media</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end of container-->
+    </section>
+    <!--end of section-->
+
+    <footer class="footer-short">
+        <div class="container">
+            <nav class="row justify-content-between align-items-center">
+                <div class="col-auto">
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <a target="_blank" href="https://github.com/RIrena?tab=repositories">
+                                <i class="fa fa-github" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a target="_blank" href="https://www.linkedin.com/in/irena-risteska-780661217/">
+                                <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a target="_blank" href="https://www.facebook.com/irena.risteska.08/">
+                                <i class="fa fa-facebook-square" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a target="_blank" href="https://www.instagram.com/risteskairena/">
+                                <i class="fa fa-instagram" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </footer>
+</div>
